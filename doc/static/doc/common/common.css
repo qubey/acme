@@ -1,0 +1,80 @@
+.tab-selected {
+  background-color: #FFF;
+  padding:5px 10px; 
+  font-weight: bold;
+}
+
+.tab {
+  background-color: #CCC;
+  padding:5px 10px;
+  font-weight: bold;
+}
+
+a:link {
+  text-decoration: none;
+  color:#6600CC;
+}
+
+a:visited {
+  text-decoration: none;
+  color:#6600CC;
+}
+
+a:hover {
+  text-decoration: none;
+  color:#6600CC;
+}
+
+a:active {
+  text-decoration: none;
+  color: #FF0000;
+}
+
+button.vita {
+  color:#6600CC;
+  font-weight:bold;
+}
+
+div.vic {
+  margin:0px;
+  padding:10px;
+  background-color:white;
+  border-top-right-radius:1em;
+  border-bottom-right-radius:1em;
+  border-bottom-left-radius:1em;
+}
+
+table.patient-list{
+  border-style:hidden;
+  overflow:hidden;
+  border-radius: 1em;
+}
+
+table.patient-list tr th {
+  text-align:center;
+  font-weight:bold;
+}
+
+td.patient-item {
+  font-weight:bold;
+  font-size:large;
+}
+
+td.patient-item a {
+  padding:10px;
+}
+
+.content-title {
+  color: #C00;
+}
+
+.care-team {
+}
+
+.sub-section {
+  color: #555;
+}
+
+h3.content-title {
+  margin-top:10px;
+}

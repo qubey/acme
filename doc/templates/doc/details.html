@@ -1,0 +1,96 @@
+{% extends "doc/chrome.html" %}
+{% load staticfiles %}
+
+{% block inner-content %}
+
+{% if patient %}
+  <div class="row">
+    <div class="col-xs-10">
+      <h3 class="content-title">
+        {{patient.first_name}} {{patient.last_name}}
+      </h3>
+    </div>
+  </div>
+  <div class="row sub-section">
+    <div class="col-xs-6">
+      <h4>
+        care team
+      </h4>
+    </div>
+    <div class="col-xs-6" style="text-align:right;">
+      <a href="{% url 'patient_details_join' patient_id=patient.id join_care=join_care %}"><h4>{{join_care_text}}</h4></a>
+    </div>
+  </div>
+  <div class="row sub-section">
+    <div class="col-xs-12 care-team">
+    {% for member in care_team %}
+        {% if forloop.last %}
+          {{member.username}}
+        {% else %}
+          {{member.username}},
+        {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+  <div class="row" style="margin-top:20px;">
+    <div class="col-xs-6">
+      <h4>
+        vitals
+      </h4>
+    </div>
+    <div class="col-xs-6" style="text-align:right;">
+      <a href="{% url 'new_vital' patient_id=patient.id %}"><h4>add</h4></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      {% if vitals.items %}
+      <table class="table table-striped patient-list" style="width:100%; text-align:center;">
+        <tr>
+          <th>name</th>
+          <th>latest value</th>
+          <th>action</th>
+        </tr>
+        {% for vname, info in vitals.items %}
+          <tr>
+            <td style="border-top:none;"> 
+              {{ vname }}
+            </td>
+            <td style="border-top:none;"> 
+              {{ info.value }}
+            </td>
+            <td style="border-top:none;"> 
+              <a href="{% url 'graph' patient_id=patient.id %}?vital_name={{vname}}">
+                view
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <p class="bg-warning" style="padding:7px; border-radius:1em;">
+        no vitals to display
+      </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row" style="text-align:right;">
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h4 class="sub-section">
+        manage
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <a href="{% url 'discharge' patient_id=patient.id %}">discharge</a>
+    </div>
+  </div>
+  
+{% else %}
+  Could not find patient
+{% endif %}
+
+{% endblock %}

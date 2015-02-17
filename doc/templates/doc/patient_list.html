@@ -1,0 +1,15 @@
+{% if patients %}
+  <table class="table table-striped patient-list" style="margin-top:20px;">
+  {% for patient in patients %}
+    <tr>
+      <td class="patient-item" style="border-top:none;">
+      <a href="{% url 'patient_details' patient_id=patient.id %}">
+        {{patient.last_name}}, {{patient.first_name}}
+      </a>
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+{% else %}
+  No patients
+{% endif %}

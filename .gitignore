@@ -1,0 +1,5 @@
+*.swp
+*.pyc
+venv/*
+doc/static/doc/bootstrap/*
+doc/migrations

@@ -1,0 +1,28 @@
+{% extends "doc/chrome.html" %}
+{% load staticfiles %}
+
+{% block inner-content %}
+
+  <h3 class="content-title">new vital measurement</h3>
+  <h4 style="color:#999;">{{patient.first_name}} {{patient.last_name}}</h4>
+
+  <form action="{% url 'new_vital' patient_id=patient.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="vital_name">vital</label>
+      <input class="form-control" id="vital_name" name="vital_name"> 
+    </div>
+    <div class="form-group">
+      <label for="vital_value">value</label>
+      <input class="form-control" id="vital_value" name="vital_value" type="number" step="0.001"> 
+    </div>
+    <div class="form-group">
+      <label for="measure_time">time of measurement</label>
+      <input class="form-control" type="datetime-local" id="measure_time" name="measure_time">
+    </div>
+    <div style="text-align:center;">
+      <button type="submit" class="btn btn-default vita">add</button>
+    </div>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "doc/base.html" %}
+{% load staticfiles %}
+
+{% block content%}
+
+<div class="row">
+  <div class="col-xs-6" style="padding-top:5px;">
+    <a href="{% url 'index' %}">
+    <h3 style="display:inline; color:#6600CC;">vita</h3><h3 style="display:inline; color:#FF0000">mon</h3>
+    </a>
+  </div>
+  <div class="col-xs-6" style="padding-top:3px; text-align:right; color:gray;">
+    <h4>{{ username }}</h4>
+  </div>
+</div>
+
+{% include "doc/tabs.html" %}
+
+<div class="row vic">
+  {%block inner-content %}{% endblock %}
+  {% endblock %}
+</div>
+
+</div>

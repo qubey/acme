@@ -1,0 +1,131 @@
+{% extends "doc/chrome.html" %}
+{% load staticfiles %}
+
+{% block inner-content %}
+
+<div class="row">
+  <div class="col-xs-10">
+    <h3 class="content-title">
+      {{patient.first_name}} {{patient.last_name}}: {{vital_name}}
+    </h3>
+  </div>
+</div>
+
+{% if show_error %}
+<div class="row">
+  <div class="col-xs-12">
+    <p class="bg-warning" style="padding:7px; border-radius:1em;">
+      need more than one data point for graph view
+    </p>
+  </div>
+</div>
+{% endif %}
+
+{% if table == '1' %}
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table table-striped patient-list" style="width:100%; text-align:center;">
+      <tr>
+        <th>{{vital_name}}</th>
+        <th>time</th>
+        <th>date</th>
+        <th>action</th>
+      </tr>
+      {% for item in data %}
+      <tr>
+        <td style="border-top:none;">
+          {{ item.value }}
+        </td>
+        <td style="border-top:none;">
+          {{ item.timestamp|date:'H:i' }}
+        </td>
+        <td style="border-top:none;">
+          {{ item.timestamp|date:'Y-m-d' }}
+        </td>
+        <td style="border-top:none;">
+          <a href="{% url 'remove_vital' vital_id=item.id %}">remove</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% else %}  
+<div class="row">
+  <div class="col-xs-12" id="graph" style="width:100%; height:400px;">
+  </div>
+</div>
+{% endif %}
+<form method="get" action="{% url 'graph' patient_id=patient.id %}">
+  <div class="row">
+    <div class="col-xs-6">
+      <label for="vital_name">show</label>
+      <select name="vital_name">
+        {% for vital in tracked_vitals %}
+          <option
+            value="{{ vital }}"
+            {% if vital_name == vital %}
+            selected
+            {% endif %}
+            >
+            {{ vital }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-xs-6" style="text-align:right;">
+      <label for="table">table view</label>
+      <input
+        type="checkbox"
+        name="table"
+        value="1" 
+        {% if table == '1' %}
+        checked
+        {% endif %}
+        >
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" style="text-align:center; margin-top:10px;">
+      <button type="submit" class="btn btn-default vita">update</button>
+    </div>
+  <div class="row">
+</form>
+
+{% if table != '1' %}
+<script>
+$(function () {
+  $('#graph').highcharts({
+    chart: {
+      type: 'line'
+    },
+    title: {
+      text: ''
+    },
+    xAxis: {
+      type: 'datetime',
+    },
+    yAxis: {
+      title: {
+        text: ''
+      }
+    },
+    series: [{
+      name: '{{ data.0.name }}',
+      data: [
+      {% for entry in data %}
+        {% if forloop.last %}
+          [ {{entry.timestamp|date:"U"}}, {{ entry.value }}]
+        {% else %}
+          [ {{entry.timestamp|date:"U"}}, {{ entry.value }}],
+        {% endif %}
+      {% endfor %}
+      ]
+    }]
+  });
+});
+</script>
+{% endif %}
+
+{% endblock %}
